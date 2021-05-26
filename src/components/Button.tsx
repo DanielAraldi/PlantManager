@@ -6,7 +6,7 @@ import fonts from "../styles/fonts";
 
 export function Button() {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} activeOpacity={0.5}>
       <Text style={styles.text}>Confirmar</Text>
     </TouchableOpacity>
   );
