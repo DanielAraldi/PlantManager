@@ -33,7 +33,7 @@ export function UserIdentification() {
 
   const handleInputChange = (value: string) => {
     setIsFilled(!!value);
-    setName(value);
+    setName(value.trim());
   };
 
   const handleSubmit = () => {
