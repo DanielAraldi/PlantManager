@@ -12,6 +12,7 @@ import {
   Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Button } from "../components/Button";
 
@@ -37,8 +38,11 @@ export function UserIdentification() {
     setName(value.trim());
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!name) return Alert.alert("Me diz como chamar você 😢");
+
+    // The @projectname:that's ís a default from async storage
+    await AsyncStorage.setItem("@plantmanager:user", name);
     navigation.navigate("Confirmation");
   };
 
