@@ -6,11 +6,14 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 
 import { EnvironmentButton } from "../components/EnvironmentButton";
 import { Header } from "../components/Header";
 import { Load } from "../components/Load";
 import { PlantCardPrimary } from "../components/PlantCardPrimary";
+
+import { PlantProps } from "../libs/storage";
 
 import { api } from "../services/api";
 
@@ -22,19 +25,6 @@ interface EnvironmentProps {
   title: string;
 }
 
-interface PlantProps {
-  id: number;
-  name: string;
-  about: string;
-  water_tips: string;
-  photo: string;
-  environments: string[];
-  frequency: {
-    times: number;
-    repeat_every: string;
-  };
-}
-
 export function PlantSelect() {
   const [environments, setEnvironments] = useState<EnvironmentProps[]>([]);
   const [plants, setPlants] = useState<PlantProps[]>([]);
@@ -43,6 +33,8 @@ export function PlantSelect() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(true);
+
+  const navigation = useNavigation();
 
   const handleEnvironmentSelected = (key: string) => {
     setEnvironmentSelected(key);
@@ -83,6 +75,9 @@ export function PlantSelect() {
     setPage((oldPage) => oldPage + 1);
     fetchPlants();
   };
+
+  const handlePlantSelect = (plant: PlantProps) =>
+    navigation.navigate("PlantSave", { plant });
 
   useEffect(() => {
     api.get("plants_environments?_sort=title&_order=asc").then((response) => {
@@ -130,7 +125,12 @@ export function PlantSelect() {
         <FlatList
           data={filteredPlants}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => <PlantCardPrimary data={item} />}
+          renderItem={({ item }) => (
+            <PlantCardPrimary
+              data={item}
+              onPress={() => handlePlantSelect(item)}
+            />
+          )}
           showsVerticalScrollIndicator={false}
           numColumns={2}
           onEndReachedThreshold={0.1}
