@@ -41,9 +41,14 @@ export function UserIdentification() {
   const handleSubmit = async () => {
     if (!name) return Alert.alert("Me diz como chamar você 😢");
 
-    // The @projectname:that's ís a default from async storage
-    await AsyncStorage.setItem("@plantmanager:user", name);
-    navigation.navigate("Confirmation");
+    try {
+      // The @projectname:that's ís a default from async storage
+      await AsyncStorage.setItem("@plantmanager:user", name);
+      navigation.navigate("Confirmation");
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Não foi possível salvar o seu nome. 😢");
+    }
   };
 
   return (
