@@ -1,12 +1,12 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { useRoute } from "@react-navigation/native";
 
 import { Button } from "../components/Button";
 
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
-import { useRoute } from "@react-navigation/native";
 
 interface IParams {
   title: string;
