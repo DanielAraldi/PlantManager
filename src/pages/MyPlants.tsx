@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { formatDistance } from "date-fns/esm";
 import { pt } from "date-fns/esm/locale";
 import { FlatList } from "react-native-gesture-handler";
@@ -50,13 +50,15 @@ export function MyPlants() {
       </View>
       <View style={styles.plants}>
         <Text style={styles.plantsTitle}>Próximas regadas</Text>
-        <FlatList
-          data={myPlants}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => <PlantCardSecondary data={item} />}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flex: 1 }}
-        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <FlatList
+            data={myPlants}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => <PlantCardSecondary data={item} />}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ flex: 1 }}
+          />
+        </ScrollView>
       </View>
     </View>
   );
