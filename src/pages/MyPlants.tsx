@@ -44,6 +44,12 @@ export function MyPlants() {
   useEffect(() => {
     const loadStorageData = async () => {
       const plantsStoraged = await loadPlant();
+      if (plantsStoraged.length === 0) {
+        setMyPlants(plantsStoraged);
+        setLoading(false);
+        return;
+      }
+
       const nextTime = formatDistance(
         new Date(plantsStoraged[0].dateTimeNotification).getTime(),
         new Date().getTime(),
@@ -67,7 +73,11 @@ export function MyPlants() {
       <Header />
       <View style={styles.spotlight}>
         <Image style={styles.spotlightImage} source={waterdrop} />
-        <Text style={styles.spotlightText}>{nextWatered}</Text>
+        <Text style={styles.spotlightText}>
+          {nextWatered
+            ? nextWatered
+            : "Você não tem nenhuma plantinha para regar. 🌱"}
+        </Text>
       </View>
       <View style={styles.plants}>
         <Text style={styles.plantsTitle}>Próximas regadas</Text>

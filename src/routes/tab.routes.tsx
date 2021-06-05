@@ -1,4 +1,5 @@
 import React from "react";
+import { Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -16,7 +17,7 @@ const AuthRoutes = () => {
         activeTintColor: colors.green, // When is active
         inactiveTintColor: colors.heading, // When isn't active
         labelPosition: "beside-icon", // Position side by side
-        style: { paddingVertical: 20, height: 88 },
+        style: { paddingVertical: Platform.OS === "ios" ? 20 : 0, height: 88 },
       }}
     >
       <AppTab.Screen
