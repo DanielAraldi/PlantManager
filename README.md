@@ -63,6 +63,13 @@ Essa aplicação foi realizada durante a **Next Level Week #5**, projeto da [Roc
   $ expo start # npm run start ou yarn start
 ```
 
+3. Executando fake API com json-server:
+
+```sh
+  # No terminal
+  $ json-server ./src/services/server.json --host YOUR_IP --port YOUR_PORT --delay 750
+```
+
 ## :memo: Licença
 
 Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
