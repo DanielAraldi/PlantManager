@@ -23,7 +23,7 @@ export default function App() {
     const permissionsNotifications = () =>
       Notifications.requestPermissionsAsync();
     permissionsNotifications();
-  });
+  }, []);
 
   useEffect(() => {
     const subscriptions = Notifications.addNotificationResponseReceivedListener(

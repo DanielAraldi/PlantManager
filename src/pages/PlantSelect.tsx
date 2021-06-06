@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/core";
 
 import { EnvironmentButton } from "../components/EnvironmentButton";
 import { Header } from "../components/Header";
-import { Load } from "../components/Load";
+import { Loading } from "../components/Loading";
 import { PlantCardPrimary } from "../components/PlantCardPrimary";
 
 import { PlantProps } from "../libs/storage";
@@ -33,6 +33,7 @@ export function PlantSelect() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(true);
+  const [serverError, setServerError] = useState(false);
 
   const navigation = useNavigation();
 
@@ -53,7 +54,6 @@ export function PlantSelect() {
       .get(`plants?_sort=name&_order=asc&_page=${page}&_limit=${8}`)
       .then((response) => {
         const { data } = response;
-        if (!data) return setLoading(true);
         if (page > 1) {
           setPlants((oldData) => [...oldData, ...data]);
           setFilteredPlants((oldData) => [...oldData, ...data]);
@@ -61,6 +61,11 @@ export function PlantSelect() {
           setPlants(data);
           setFilteredPlants(data);
         }
+      })
+      .catch(() => {
+        setLoading(false);
+        setLoadingMore(false);
+        setServerError(true);
       })
       .finally(() => {
         setLoading(false);
@@ -80,23 +85,31 @@ export function PlantSelect() {
     navigation.navigate("PlantSave", { plant });
 
   useEffect(() => {
-    api.get("plants_environments?_sort=title&_order=asc").then((response) => {
-      const { data } = response;
-      setEnvironments([
-        {
-          key: "all",
-          title: "Todos",
-        },
-        ...data,
-      ]);
-    });
+    api
+      .get("plants_environments?_sort=title&_order=asc")
+      .then((response) => {
+        const { data } = response;
+        setEnvironments([
+          {
+            key: "all",
+            title: "Todos",
+          },
+          ...data,
+        ]);
+      })
+      .catch(() => {
+        setLoading(false);
+        setLoadingMore(false);
+        setServerError(true);
+      });
   }, []);
 
   useEffect(() => {
     fetchPlants();
   }, []);
 
-  if (loading) return <Load />;
+  if (loading) return <Loading load />;
+  if (serverError) return <Loading load={false} serverError />;
 
   return (
     <View style={styles.container}>

@@ -4,7 +4,7 @@ import { formatDistance } from "date-fns/esm";
 import { pt } from "date-fns/esm/locale";
 import { FlatList } from "react-native-gesture-handler";
 
-import { Load } from "../components/Load";
+import { Loading } from "../components/Loading";
 import { Header } from "../components/Header";
 import { PlantCardSecondary } from "../components/PlantCardSecondary";
 
@@ -71,7 +71,7 @@ export function MyPlants() {
     loadStorageData();
   }, [nextWatered]);
 
-  if (loading) return <Load />;
+  if (loading) return <Loading load />;
 
   return (
     <View style={styles.container}>
@@ -86,18 +86,26 @@ export function MyPlants() {
       </View>
       <View style={styles.plants}>
         <Text style={styles.plantsTitle}>Próximas regadas</Text>
-        <FlatList
-          data={myPlants}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <PlantCardSecondary
-              data={item}
-              handleRemove={() => handleRemove(item)}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flexGrow: 1 }}
-        />
+        {myPlants.length > 0 ? (
+          <FlatList
+            data={myPlants}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => (
+              <PlantCardSecondary
+                data={item}
+                handleRemove={() => handleRemove(item)}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ flexGrow: 1 }}
+          />
+        ) : (
+          <View style={styles.notMyPlantsContainer}>
+            <Text style={styles.notMyPlantsText}>
+              Não há nenhuma planta para regar aqui. 🌱
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -144,5 +152,21 @@ const styles = StyleSheet.create({
     fontFamily: fonts.heading,
     color: colors.heading,
     marginVertical: 20,
+  },
+
+  notMyPlantsContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.blue_light,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    height: 110,
+    flexDirection: "row",
+  },
+
+  notMyPlantsText: {
+    fontSize: 16,
+    fontFamily: fonts.text,
+    color: colors.blue,
   },
 });
