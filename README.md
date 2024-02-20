@@ -12,7 +12,7 @@
 
 ## :bookmark: About
 
-The **PlantManager** is a mobile application that you can use to add your plants. It also monitor your plants and alert when you must water their.
+The **PlantManager** is a mobile application that you can use to add your plants. It also monitors your plants and alert when you must water their.
 
 This application was created during the **Next Level Week #5**, a project by [Rocketseat](https://rocketseat.com.br/)
 
